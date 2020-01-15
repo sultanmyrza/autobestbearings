@@ -54,7 +54,7 @@
       </v-btn>
     </v-app-bar>
     <v-content>
-      <v-container>
+      <v-container fluid fill-height>
         <nuxt />
       </v-container>
       <v-footer>
@@ -74,7 +74,9 @@
         </v-card-text>
       </v-footer>
     </v-content>
-
+    <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
+      <v-icon>mdi-chat-processing</v-icon>
+    </v-btn>
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
         <v-list-item @click.native="right = !right">
