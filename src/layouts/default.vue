@@ -74,9 +74,9 @@
         </v-card-text>
       </v-footer>
     </v-content>
-    <v-btn bottom color="pink" dark fab fixed right @click="dialog = !dialog">
-      <v-icon>mdi-chat-processing</v-icon>
-    </v-btn>
+
+    <chat-panel />
+
     <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
       <v-list>
         <v-list-item @click.native="right = !right">
@@ -94,13 +94,13 @@
 
 <script>
 import ThemeSwitcher from '../components/ThemeSwitcher.vue'
-
+import ChatPanel from '@/components/ChatPanel.vue'
 export default {
-  components: { ThemeSwitcher },
+  components: { ThemeSwitcher, ChatPanel },
   data() {
     return {
       clipped: true,
-      drawer: true,
+      drawer: false,
       fixed: false,
       items: [
         {
