@@ -25,6 +25,7 @@
     "@nuxtjs/dotenv": "^1.4.0",
     "@nuxtjs/pwa": "^3.0.0-0",
     "@nuxtjs/recaptcha": "^0.6.2",
+    "firebase": "^7.6.2",
     "nuxt": "^2.0.0"
   },
   "devDependencies": {
