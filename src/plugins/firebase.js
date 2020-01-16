@@ -13,24 +13,29 @@ const config = {
   appId: process.env.VUE_APP_FIREBASE_appId,
   measurementId: process.env.VUE_APP_FIREBASE_measurementId
 }
-firebase.initializeApp(config)
+if (!firebase.apps.length) {
+  firebase.initializeApp(config)
+
+  const firestore = firebase.firestore()
+
+  // date issue fix according to firebase
+  const settings = Object({})
+  firestore.settings(settings)
+
+  // Write to emulator for testing purposes
+  const runOnFirebaseEmulator =
+    process.env.VUE_APP_FIREBASE_runOnFirebaseEmulator
+  if (runOnFirebaseEmulator === 'true') {
+    settings.ssl = false
+    settings.host = 'localhost:8080'
+    firestore.settings(settings)
+  }
+}
 
 // firebase utils
 const firestore = firebase.firestore()
 const auth = firebase.auth()
 const currentUser = auth.currentUser
-
-// date issue fix according to firebase
-const settings = {}
-firestore.settings(settings)
-
-// Write to emulator for testing purposes
-const runOnFirebaseEmulator = process.env.VUE_APP_FIREBASE_runOnFirebaseEmulator
-if (runOnFirebaseEmulator === 'true') {
-  settings.ssl = false
-  settings.host = 'localhost:8080'
-  firestore.settings(settings)
-}
 
 // firebase collections
 const customersCollection = firestore.collection('customers')
