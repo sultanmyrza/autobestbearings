@@ -10,7 +10,7 @@
           <v-card-title>Chat</v-card-title>
           <v-divider></v-divider>
           <v-card-text style="height: 400px; maring:0px; padding:0px">
-            <messages-list />
+            <messages-list :messages="messages" :customerId="'1'" />
           </v-card-text>
           <v-divider></v-divider>
           <div style="display:flex">
@@ -23,7 +23,7 @@
             </div>
             <div style="flex:1;">
               <v-textarea
-                v-model="model"
+                v-model="text"
                 :auto-grow="true"
                 :clearable="true"
                 :outlined="outlined"
@@ -40,7 +40,7 @@
             <div
               style="display:flex;align-items: flex-end; padding-bottom: 16px"
             >
-              <v-btn text icon color="pink">
+              <v-btn @click="sendMessage" text icon color="pink">
                 <v-icon>mdi-send</v-icon>
               </v-btn>
             </div>
@@ -52,7 +52,9 @@
 </template>
 
 <script>
+import { customersCollection } from '../plugins/firebase'
 import MessagesList from '@/components/MessagesList.vue'
+
 export default {
   components: { MessagesList },
   data: () => ({
@@ -70,10 +72,37 @@ export default {
     singleLine: false,
     solo: false,
     sheet: false,
-    message: 'message',
-    text:
-      'Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.'
-  })
+    text: '',
+    messages: []
+  }),
+  mounted() {
+    customersCollection
+      .doc('1')
+      .collection('messages')
+      .orderBy('timeStamp', 'asc')
+      .onSnapshot((snap) => {
+        this.messages = snap.docs.map((doc) => doc.data())
+      })
+  },
+  methods: {
+    sendMessage() {
+      const docRef = customersCollection
+        .doc(`1`)
+        .collection('messages')
+        .doc()
+      docRef.set({
+        id: docRef.id,
+        senderName: '1',
+        senderId: '1',
+        receiverName: 'customerSupportAgentId',
+        receiverId: 'customerSupportAgentId',
+        timeStamp: Date.now(),
+        text: this.text,
+        document: null
+      })
+      this.text = ''
+    }
+  }
 }
 </script>
 
