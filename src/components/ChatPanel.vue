@@ -6,7 +6,7 @@
 
     <div class="text-center">
       <v-bottom-sheet v-model="sheet" scrollable inset>
-        <v-card v-if="!authorized">
+        <v-card v-if="!customerId">
           <v-card-title>Chat</v-card-title>
           <v-divider></v-divider>
           <v-flex class="text-center">
@@ -26,14 +26,14 @@
           <v-card-title>Chat</v-card-title>
           <v-divider></v-divider>
           <v-card-text style="height: 400px; maring:0px; padding:0px">
-            <messages-list :messages="messages" :customerId="'1'" />
+            <messages-list :messages="messages" :customerId="customerId" />
           </v-card-text>
           <v-divider></v-divider>
           <div style="display:flex">
             <div
               style="display:flex;align-items: flex-end;padding-bottom: 16px"
             >
-              <v-btn text icon color="pink">
+              <v-btn @click="logoutAnonymousUser" text icon color="pink">
                 <v-icon>mdi-file</v-icon>
               </v-btn>
             </div>
@@ -68,7 +68,11 @@
 </template>
 
 <script>
-import { customersCollection } from '../plugins/firebase'
+import {
+  customersCollection,
+  getAnonymousUser,
+  auth
+} from '../plugins/firebase'
 import MessagesList from '@/components/MessagesList.vue'
 import CustomerProfile from '@/components/CustomerProfile.vue'
 export default {
@@ -90,38 +94,77 @@ export default {
     sheet: false,
     text: '',
     messages: [],
-    authorized: false
+    customerId: null,
+    companyName: null,
+    customerName: null
   }),
   mounted() {
-    customersCollection
-      .doc('1')
-      .collection('messages')
-      .orderBy('timeStamp', 'asc')
-      .onSnapshot((snap) => {
-        this.messages = snap.docs.map((doc) => doc.data())
-      })
+    this.loginUserAnonymouosly()
   },
   methods: {
     sendMessage() {
       const docRef = customersCollection
-        .doc(`1`)
+        .doc(this.customerId)
         .collection('messages')
         .doc()
       docRef.set({
         id: docRef.id,
-        senderName: '1',
-        senderId: '1',
+        senderName: this.customerName,
+        senderId: this.customerId,
         receiverName: 'customerSupportAgentId',
         receiverId: 'customerSupportAgentId',
         timeStamp: Date.now(),
         text: this.text,
         document: null
       })
+      customersCollection.doc(this.customerId).update({
+        lastMessage: {
+          senderName: this.customerName,
+          text: this.text
+        }
+      })
       this.text = ''
     },
+    subscribeToMessages() {
+      customersCollection
+        .doc(this.customerId)
+        .collection('messages')
+        .orderBy('timeStamp', 'asc')
+        .onSnapshot((snap) => {
+          this.messages = snap.docs.map((doc) => doc.data())
+        })
+    },
+    loginUserAnonymouosly() {
+      // TODO handle edge case errors etc
+
+      return getAnonymousUser().then((anonUser) => {
+        if (anonUser) {
+          this.customerId = anonUser.uid
+          this.subscribeToMessages()
+        }
+        return anonUser
+      })
+    },
+    logoutAnonymousUser() {
+      auth.signOut().then((result) => {
+        this.customerId = null
+        this.customerName = ''
+        this.companyName = ''
+      })
+    },
     processCompanyInfo({ companyName, customerName }) {
-      console.log(companyName)
-      console.log(customerName)
+      this.customerName = customerName
+      this.companyName = companyName
+      this.loginUserAnonymouosly().then((anonUser) => {
+        customersCollection.doc(anonUser.uid).set({
+          id: anonUser.uid,
+          companyName,
+          lastMessage: {
+            senderName: 'customerSupportAgentId',
+            text: 'New user. lets write something to him'
+          }
+        })
+      })
     }
   }
 }
