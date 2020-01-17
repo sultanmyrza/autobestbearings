@@ -6,7 +6,23 @@
 
     <div class="text-center">
       <v-bottom-sheet v-model="sheet" scrollable inset>
-        <v-card>
+        <v-card v-if="!authorized">
+          <v-card-title>Chat</v-card-title>
+          <v-divider></v-divider>
+          <v-flex class="text-center">
+            <blockquote class="blockquote">
+              &#8220;Please write your name and you company name so we can chat
+              instantly&#8221;
+              <footer>
+                <small>
+                  <em>&mdash; manager of AUTO BEST BEARINGS CO., LTD</em>
+                </small>
+              </footer>
+            </blockquote>
+            <customer-profile @submitForm="processCompanyInfo" />
+          </v-flex>
+        </v-card>
+        <v-card v-else>
           <v-card-title>Chat</v-card-title>
           <v-divider></v-divider>
           <v-card-text style="height: 400px; maring:0px; padding:0px">
@@ -54,9 +70,9 @@
 <script>
 import { customersCollection } from '../plugins/firebase'
 import MessagesList from '@/components/MessagesList.vue'
-
+import CustomerProfile from '@/components/CustomerProfile.vue'
 export default {
-  components: { MessagesList },
+  components: { MessagesList, CustomerProfile },
   data: () => ({
     autoGrow: false,
     clearable: false,
@@ -73,7 +89,8 @@ export default {
     solo: false,
     sheet: false,
     text: '',
-    messages: []
+    messages: [],
+    authorized: false
   }),
   mounted() {
     customersCollection
@@ -101,6 +118,10 @@ export default {
         document: null
       })
       this.text = ''
+    },
+    processCompanyInfo({ companyName, customerName }) {
+      console.log(companyName)
+      console.log(customerName)
     }
   }
 }
