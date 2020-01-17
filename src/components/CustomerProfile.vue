@@ -48,7 +48,7 @@ export default {
   components: { ReCaptcha },
   data: () => ({
     valid: false,
-    reCatpcha: false,
+    reCatpcha: true,
     country: '',
     company: '',
     phone: '',
