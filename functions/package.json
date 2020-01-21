@@ -13,8 +13,13 @@
     "node": "8"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.4.0",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "express": "^4.17.1",
     "firebase-admin": "^8.6.0",
-    "firebase-functions": "^3.3.0"
+    "firebase-functions": "^3.3.0",
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
