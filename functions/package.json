@@ -7,14 +7,29 @@
     "shell": "firebase functions:shell",
     "start": "npm run shell",
     "deploy": "firebase deploy --only functions",
-    "logs": "firebase functions:log"
+    "logs": "firebase functions:log",
+    "firebase-build-ssr": "npm run build-nuxt-from-functions-dir && npm run copy-nuxt-to-functions && npm run copy-nuxt-to-public",
+    "build-nuxt-from-functions-dir": "npm --prefix ../src run build",
+    "copy-nuxt-to-functions": "rm -rf .nuxt && cp -R ../src/.nuxt .nuxt",
+    "copy-nuxt-to-public": "npm run clean-public && npm run copy-nuxt-assets-static-to-public && npm run copy-nuxt-dist-to-public ",
+    "clean-public": "rm -rf ../public/",
+    "copy-nuxt-assets-static-to-public": "cp -R ../src/assets/ ../public/ && cp -R ../src/static/ ../public/",
+    "copy-nuxt-dist-to-public": "cp -R .nuxt/dist/client/ ../public/ && cp -R .nuxt/dist/server/ ../public/",
+    "firebase-emulators-all": "firebase emulators:start"
   },
   "engines": {
     "node": "8"
   },
   "dependencies": {
+    "@nuxtjs/axios": "^5.3.6",
+    "@nuxtjs/dotenv": "^1.4.0",
+    "@nuxtjs/pwa": "^3.0.0-0",
+    "@nuxtjs/recaptcha": "^0.6.2",
+    "express": "^4.17.1",
+    "firebase": "^7.6.2",
     "firebase-admin": "^8.6.0",
-    "firebase-functions": "^3.3.0"
+    "firebase-functions": "^3.3.0",
+    "nuxt": "^2.0.0"
   },
   "devDependencies": {
     "eslint": "^5.12.0",
