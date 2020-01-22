@@ -4,14 +4,14 @@ import 'firebase/auth'
 
 // firebase init
 const config = {
-  apiKey: process.env.VUE_APP_FIREBASE_apiKey,
-  authDomain: process.env.VUE_APP_FIREBASE_authDomain,
-  databaseURL: process.env.VUE_APP_FIREBASE_databaseURL,
-  projectId: process.env.VUE_APP_FIREBASE_projectId,
-  storageBucket: process.env.VUE_APP_FIREBASE_storageBucket,
-  messagingSenderId: process.env.VUE_APP_FIREBASE_messagingSenderId,
-  appId: process.env.VUE_APP_FIREBASE_appId,
-  measurementId: process.env.VUE_APP_FIREBASE_measurementId
+  apiKey: process.env.apiKey,
+  authDomain: process.env.authDomain,
+  databaseURL: process.env.databaseURL,
+  projectId: process.env.projectId,
+  storageBucket: process.env.storageBucket,
+  messagingSenderId: process.env.messagingSenderId,
+  appId: process.env.appId,
+  measurementId: process.env.measurementId
 }
 if (!firebase.apps.length) {
   firebase.initializeApp(config)
@@ -23,8 +23,7 @@ if (!firebase.apps.length) {
   firestore.settings(settings)
 
   // Write to emulator for testing purposes
-  const runOnFirebaseEmulator =
-    process.env.VUE_APP_FIREBASE_runOnFirebaseEmulator
+  const runOnFirebaseEmulator = process.env.runOnFirebaseEmulator
   if (runOnFirebaseEmulator === 'true') {
     settings.ssl = false
     settings.host = 'localhost:8080'
