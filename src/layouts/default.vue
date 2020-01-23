@@ -37,7 +37,7 @@
     </v-navigation-drawer>
     <v-app-bar :clipped-left="clipped" fixed app>
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" />
-      <v-btn @click.stop="miniVariant = !miniVariant" icon>
+      <!-- <v-btn @click.stop="miniVariant = !miniVariant" icon>
         <v-icon>mdi-{{ `chevron-${miniVariant ? 'right' : 'left'}` }}</v-icon>
       </v-btn>
       <v-btn @click.stop="clipped = !clipped" icon>
@@ -45,7 +45,7 @@
       </v-btn>
       <v-btn @click.stop="fixed = !fixed" icon>
         <v-icon>mdi-minus</v-icon>
-      </v-btn>
+      </v-btn> -->
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <ThemeSwitcher />
@@ -128,7 +128,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js',
+      title: 'auto best bearings',
       customers: []
     }
   },
