@@ -10,7 +10,7 @@
         >
           <v-text-field
             v-model="company"
-            :counter="20"
+            :counter="30"
             :rules="requiredRules"
             label="Company"
             required
@@ -18,7 +18,7 @@
 
           <v-text-field
             v-model="name"
-            :counter="20"
+            :counter="30"
             :rules="requiredRules"
             label="Name"
             required
