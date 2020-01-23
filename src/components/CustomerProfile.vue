@@ -50,7 +50,7 @@ export default {
   components: { ReCaptcha },
   data: () => ({
     valid: false,
-    reCatpcha: true,
+    reCatpcha: false,
     country: '',
     company: '',
     phone: '',
