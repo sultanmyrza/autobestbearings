@@ -84,25 +84,19 @@
       temporary
       fixed
     >
-      <v-list>
-        <v-list-item @click.native="right = !right">
-          <v-list-item-action>
-            <v-icon light>
-              mdi-repeat
-            </v-icon>
-          </v-list-item-action>
-          <v-list-item-title>Switch drawer (click me)</v-list-item-title>
-        </v-list-item>
-      </v-list>
+      <contacts-list :customers="customers" />
     </v-navigation-drawer>
   </v-app>
 </template>
 
 <script>
+import { customersCollection } from '../plugins/firebase'
 import ThemeSwitcher from '../components/ThemeSwitcher.vue'
 import ChatPanel from '@/components/ChatPanel.vue'
+import ContactsList from '@/components/ContactsList.vue'
+
 export default {
-  components: { ThemeSwitcher, ChatPanel },
+  components: { ThemeSwitcher, ChatPanel, ContactsList },
   data() {
     return {
       adminPage: false,
@@ -134,11 +128,18 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'Vuetify.js'
+      title: 'Vuetify.js',
+      customers: []
     }
   },
-  mounted() {
+  async mounted() {
     this.adminPage = this.$route.fullPath.includes('admin')
+    if (this.adminPage) {
+      const customers = await customersCollection
+        .get()
+        .then((snap) => snap.docs.map((doc) => doc.data()))
+      this.customers = customers
+    }
   }
 }
 </script>
