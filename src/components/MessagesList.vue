@@ -27,9 +27,7 @@ export default {
     customerId: { type: String, default: () => '' }
   },
   watch: {
-    messages(e) {
-      console.log('new message')
-    }
+    messages(e) {}
   }
 }
 </script>
