@@ -1,6 +1,11 @@
 <template>
   <div class="scrollmenu">
-    <v-chip v-for="suggestion in suggestions" :key="suggestion" class="ma-2">
+    <v-chip
+      v-for="suggestion in suggestions"
+      :key="suggestion"
+      @click="suggestText(suggestion)"
+      class="ma-2"
+    >
       {{ suggestion }}
     </v-chip>
   </div>
@@ -15,6 +20,11 @@ export default {
         'Can I help you?',
         'What kind of products you are interested in?'
       ]
+    }
+  },
+  methods: {
+    suggestText(text) {
+      this.$emit('suggestion', text)
     }
   }
 }

@@ -1,7 +1,7 @@
 <template>
   <div class="message-form-container">
     <v-card style="border-radius:0px;" shaped>
-      <MessageSuggestionPanel />
+      <MessageSuggestionPanel @suggestion="suggestionText" />
 
       <div class="message-form">
         <div class="left-button">
@@ -80,6 +80,9 @@ export default {
     text: ''
   }),
   methods: {
+    suggestionText(text) {
+      this.text = text
+    },
     sendMessage() {
       const docRef = customersCollection
         .doc(this.customerId)
