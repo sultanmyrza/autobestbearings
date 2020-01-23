@@ -49,7 +49,7 @@
       <v-toolbar-title v-text="title" />
       <v-spacer />
       <ThemeSwitcher />
-      <v-btn @click.stop="rightDrawer = !rightDrawer" icon>
+      <v-btn v-if="adminPage" @click.stop="rightDrawer = !rightDrawer" icon>
         <v-icon>mdi-menu</v-icon>
       </v-btn>
     </v-app-bar>
@@ -77,7 +77,13 @@
 
     <chat-panel />
 
-    <v-navigation-drawer v-model="rightDrawer" :right="right" temporary fixed>
+    <v-navigation-drawer
+      v-if="adminPage"
+      v-model="rightDrawer"
+      :right="right"
+      temporary
+      fixed
+    >
       <v-list>
         <v-list-item @click.native="right = !right">
           <v-list-item-action>
@@ -99,6 +105,7 @@ export default {
   components: { ThemeSwitcher, ChatPanel },
   data() {
     return {
+      adminPage: false,
       clipped: true,
       drawer: false,
       fixed: false,
@@ -129,6 +136,9 @@ export default {
       rightDrawer: false,
       title: 'Vuetify.js'
     }
+  },
+  mounted() {
+    this.adminPage = this.$route.fullPath.includes('admin')
   }
 }
 </script>
