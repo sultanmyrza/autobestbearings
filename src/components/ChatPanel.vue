@@ -6,7 +6,7 @@
 
     <div class="text-center">
       <v-bottom-sheet v-model="sheet" scrollable inset>
-        <v-card v-if="!customerId">
+        <v-card v-if="!customerId || !companyName || !customerName">
           <v-card-title>Chat</v-card-title>
           <v-divider></v-divider>
           <v-flex class="text-center">
@@ -127,8 +127,13 @@ export default {
       this.text = ''
     },
     subscribeToMessages() {
-      customersCollection
-        .doc(this.customerId)
+      const docRef = customersCollection.doc(this.customerId)
+      docRef.get().then((doc) => {
+        const { customerName, companyName } = doc.data()
+        this.customerName = customerName
+        this.companyName = companyName
+      })
+      docRef
         .collection('messages')
         .orderBy('timeStamp', 'asc')
         .onSnapshot((snap) => {
@@ -160,6 +165,7 @@ export default {
         customersCollection.doc(anonUser.uid).set({
           id: anonUser.uid,
           companyName,
+          customerName,
           lastMessage: {
             senderName: 'customerSupportAgentId',
             text: 'New user. lets write something to him'

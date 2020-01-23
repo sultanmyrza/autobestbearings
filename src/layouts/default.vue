@@ -132,13 +132,12 @@ export default {
       customers: []
     }
   },
-  async mounted() {
+  mounted() {
     this.adminPage = this.$route.fullPath.includes('admin')
     if (this.adminPage) {
-      const customers = await customersCollection
-        .get()
-        .then((snap) => snap.docs.map((doc) => doc.data()))
-      this.customers = customers
+      customersCollection.onSnapshot((snap) => {
+        this.customers = snap.docs.map((doc) => doc.data())
+      })
     }
   }
 }
