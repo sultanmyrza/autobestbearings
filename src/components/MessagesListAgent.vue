@@ -4,11 +4,11 @@
       <template v-for="message in messages">
         <v-list-item :key="message.id">
           <v-list-item-avatar>
-            <v-img
+            <img
               v-if="message.senderId === $route.params.customerId"
-              src="../assets/client.png"
-            ></v-img>
-            <v-img v-else src="../assets/agent.png"></v-img>
+              src="~/assets/client.png"
+            />
+            <img v-else src="~/assets/agent.png" />
           </v-list-item-avatar>
 
           <v-list-item-content>

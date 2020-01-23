@@ -7,7 +7,7 @@
     <div class="text-center">
       <v-bottom-sheet v-model="sheet" scrollable inset>
         <v-card v-if="!customerId || !companyName || !customerName">
-          <v-card-title>Chat</v-card-title>
+          <v-card-title>CHAT</v-card-title>
           <v-divider></v-divider>
           <v-flex class="text-center">
             <blockquote class="blockquote">
@@ -23,7 +23,9 @@
           </v-flex>
         </v-card>
         <v-card v-else>
-          <v-card-title>Chat</v-card-title>
+          <v-card-title
+            >CHAT: {{ customerName }} | {{ companyName }}
+          </v-card-title>
           <v-divider></v-divider>
           <v-card-text style="height: 400px; maring:0px; padding:0px">
             <messages-list :messages="messages" :customerId="customerId" />
@@ -129,9 +131,12 @@ export default {
     subscribeToMessages() {
       const docRef = customersCollection.doc(this.customerId)
       docRef.get().then((doc) => {
-        const { customerName, companyName } = doc.data()
-        this.customerName = customerName
-        this.companyName = companyName
+        const data = doc.data()
+        if (data) {
+          const { customerName, companyName } = data
+          this.customerName = customerName
+          this.companyName = companyName
+        }
       })
       docRef
         .collection('messages')

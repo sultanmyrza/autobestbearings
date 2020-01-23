@@ -57,7 +57,7 @@
       <v-container fluid fill-height>
         <nuxt />
       </v-container>
-      <v-footer>
+      <!-- <v-footer>
         <v-card-text class="pt-0">
           Tel：886-2-2289-5853
           <br />
@@ -72,7 +72,7 @@
           <br />
           Copyright © 2012 AUTO BEST BEARINGS CO., LTD. All Rights Reserved.
         </v-card-text>
-      </v-footer>
+      </v-footer> -->
     </v-content>
 
     <chat-panel v-if="!adminPage" />
@@ -132,12 +132,26 @@ export default {
       customers: []
     }
   },
+  watch: {
+    $route(to) {
+      console.log('route change')
+
+      this.adminPage = this.isAdminPage()
+    }
+  },
   mounted() {
-    this.adminPage = this.$route.fullPath.includes('admin')
-    if (this.adminPage) {
-      customersCollection.onSnapshot((snap) => {
-        this.customers = snap.docs.map((doc) => doc.data())
-      })
+    this.adminPage = this.isAdminPage()
+  },
+  methods: {
+    isAdminPage() {
+      const isAdminPage = this.$route.fullPath.includes('admin')
+      if (isAdminPage) {
+        console.log('subscribing to snapshot changes')
+        customersCollection.onSnapshot((snap) => {
+          this.customers = snap.docs.map((doc) => doc.data())
+        })
+      }
+      return isAdminPage
     }
   }
 }

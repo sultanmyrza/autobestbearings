@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="chat-room">
     <MessagesListAgent />
     <MessageForm :customerId="customerId" />
   </div>
@@ -28,4 +28,13 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+.chat-room {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-flow: column;
+  align-content: flex-end;
+  justify-content: flex-end;
+}
+</style>
