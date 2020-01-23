@@ -87,7 +87,6 @@ export default {
    ** Build configuration
    */
   build: {
-    publicPath: '/',
     extractCss: true,
     /*
      ** You can extend webpack config here
