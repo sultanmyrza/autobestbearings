@@ -107,6 +107,7 @@ export default {
         .doc(this.customerId)
         .collection('messages')
         .doc()
+
       docRef.set({
         id: docRef.id,
         senderName: this.customerName,
