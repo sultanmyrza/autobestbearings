@@ -75,7 +75,7 @@
       </v-footer>
     </v-content>
 
-    <chat-panel />
+    <chat-panel v-if="!adminPage" />
 
     <v-navigation-drawer
       v-if="adminPage"
