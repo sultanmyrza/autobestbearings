@@ -87,17 +87,15 @@ export default {
         .doc()
       docRef.set({
         id: docRef.id,
-        senderName: '1',
-        senderId: '1',
-        receiverName: 'customerSupportAgentId',
-        receiverId: 'customerSupportAgentId',
+        senderName: 'Customer Support',
+        senderId: 'Customer Support',
         timeStamp: Date.now(),
         text: this.text,
         document: null
       })
       customersCollection.doc(this.customerId).update({
         lastMessage: {
-          senderName: 'customerSupportAgentId',
+          senderName: 'Customer Support',
           text: this.text
         }
       })

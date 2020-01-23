@@ -134,8 +134,6 @@ export default {
   },
   watch: {
     $route(to) {
-      console.log('route change')
-
       this.adminPage = this.isAdminPage()
     }
   },
@@ -146,7 +144,6 @@ export default {
     isAdminPage() {
       const isAdminPage = this.$route.fullPath.includes('admin')
       if (isAdminPage) {
-        console.log('subscribing to snapshot changes')
         customersCollection.onSnapshot((snap) => {
           this.customers = snap.docs.map((doc) => doc.data())
         })

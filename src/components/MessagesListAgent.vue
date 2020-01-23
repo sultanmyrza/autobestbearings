@@ -30,7 +30,6 @@ export default {
   watch: {
     $route(to) {
       const { customerId } = to.params
-      console.log(customerId)
 
       customersCollection
         .doc(customerId)
