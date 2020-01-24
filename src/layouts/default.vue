@@ -128,7 +128,7 @@ export default {
       miniVariant: false,
       right: true,
       rightDrawer: false,
-      title: 'auto best bearings',
+      title: 'auto best bearings!',
       customers: []
     }
   },

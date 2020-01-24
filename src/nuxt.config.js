@@ -48,7 +48,17 @@ export default {
     '@nuxtjs/pwa',
     // Doc: https://github.com/nuxt-community/dotenv-module
     '@nuxtjs/dotenv',
-    '@nuxtjs/recaptcha'
+    '@nuxtjs/recaptcha',
+    [
+      '@nuxtjs/yandex-metrika',
+      {
+        id: '57174397',
+        clickmap: true,
+        trackLinks: true,
+        accurateTrackBounce: true,
+        webvisor: true
+      }
+    ]
   ],
   recaptcha: {
     // hideBadge: Boolean, // Hide badge element (v3 & v2 via size=invisible)
